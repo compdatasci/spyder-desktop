@@ -1,5 +1,5 @@
 # Builds a Docker image for development environment
-# with Ubuntu, LXDE, and user numgeom.
+# with Ubuntu, LXDE, and user unifem.
 #
 # Authors:
 # Xiangmin Jiao <xmjiao@gmail.com>
@@ -14,7 +14,7 @@ WORKDIR /tmp
 # Customization for user and location
 ########################################################
 
-ENV NG_USER=numgeom
+ENV UE_USER=unifem
 
 # Set up user so that we do not run as root
 RUN apt-get update && \
@@ -25,20 +25,20 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN mv /home/$DOCKER_USER /home/$NG_USER && \
-    useradd -m -s /bin/bash -G sudo,docker_env $NG_USER && \
-    echo "$NG_USER:docker" | chpasswd && \
-    echo "$NG_USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
-    sed -i "s/$DOCKER_USER/$NG_USER/" /home/$NG_USER/.config/pcmanfm/LXDE/desktop-items-0.conf && \
-    chown -R $NG_USER:$NG_USER /home/$NG_USER
+RUN mv /home/$DOCKER_USER /home/$UE_USER && \
+    useradd -m -s /bin/bash -G sudo,docker_env $UE_USER && \
+    echo "$UE_USER:docker" | chpasswd && \
+    echo "$UE_USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
+    sed -i "s/$DOCKER_USER/$UE_USER/" /home/$UE_USER/.config/pcmanfm/LXDE/desktop-items-0.conf && \
+    chown -R $UE_USER:$UE_USER /home/$UE_USER
 
-ENV DOCKER_USER=$NG_USER \
-    DOCKER_GROUP=$NG_USER \
-    DOCKER_HOME=/home/$NG_USER \
-    HOME=/home/$NG_USER
+ENV DOCKER_USER=$UE_USER \
+    DOCKER_GROUP=$UE_USER \
+    DOCKER_HOME=/home/$UE_USER \
+    HOME=/home/$UE_USER
 
 WORKDIR $DOCKER_HOME
 
 USER root
-ENTRYPOINT ["/sbin/my_init","--quiet","--","/sbin/setuser","numgeom","/bin/bash","-l","-c"]
+ENTRYPOINT ["/sbin/my_init","--quiet","--","/sbin/setuser","unifem","/bin/bash","-l","-c"]
 CMD ["/bin/bash","-l","-i"]
