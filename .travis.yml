@@ -1,0 +1,8 @@
+language: python
+
+services: docker
+
+script:
+  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_USERPASS"
+  - docker build --tag numgeom/desktop-base . && docker push numgeom/desktop-base && curl -X POST https://registry.hub.docker.com/u/numgeom/desktop-base/trigger/$DOCKER_TOKEN/
+  - docker images
