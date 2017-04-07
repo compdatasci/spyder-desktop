@@ -21,7 +21,8 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
           python3-requests \
           build-essential \
-          bash-completion && \
+          bash-completion \
+          bsdtar && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
