@@ -26,8 +26,8 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN usermod -l $UE_USER $DOCKER_USER && groupmod -n $UE_USER $DOCKER_USER && \
-    mv /home/$DOCKER_USER /home/$UE_USER && usermod -d /home/$UE_USER -m $UE_USER && \
+RUN usermod -l $UE_USER -d /home/$UE_USER -m $DOCKER_USER && \
+    groupmod -n $UE_USER $DOCKER_USER && \
     echo "$UE_USER:docker" | chpasswd && \
     echo "$UE_USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
     sed -i "s/$DOCKER_USER/$UE_USER/" /home/$UE_USER/.config/pcmanfm/LXDE/desktop-items-0.conf && \
