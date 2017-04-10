@@ -19,6 +19,7 @@ ENV UE_USER=unifem
 # Set up user so that we do not run as root
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+          python3-pip \
           python3-requests \
           build-essential \
           bash-completion \
