@@ -1,5 +1,5 @@
 # Builds a Docker image for development environment
-# with Ubuntu, LXDE, and user unifem.
+# with Ubuntu, LXDE, and Jupyter Notebook.
 #
 # Authors:
 # Xiangmin Jiao <xmjiao@gmail.com>
