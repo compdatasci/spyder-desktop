@@ -15,6 +15,9 @@ WORKDIR /tmp
 ########################################################
 
 ENV UE_USER=unifem
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
 
 # Set up user so that we do not run as root
 RUN apt-get update && \
