@@ -20,12 +20,39 @@ ENV UE_USER=unifem
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
           python3-pip \
-          python3-requests \
+          python3-dev \
           build-essential \
           bash-completion \
+          pandoc \
+          ttf-dejavu \
           bsdtar && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Install jupyter
+RUN pip3 install -U pip setuptools && \
+    pip3 install -U \
+         ipython \
+         jupyter \
+         ipywidgets && \
+    jupyter nbextension install --py --system \
+         widgetsnbextension && \
+    jupyter nbextension enable --py --system \
+         widgetsnbextension && \
+    pip3 install -U \
+        jupyter_latex_envs==1.3.8.4 && \
+    jupyter nbextension install --py --system \
+        latex_envs && \
+    jupyter nbextension enable --py --system \
+        latex_envs && \
+    jupyter nbextension install --system \
+        https://bitbucket.org/ipre/calico/downloads/calico-spell-check-1.0.zip && \
+    jupyter nbextension install --system \
+        https://bitbucket.org/ipre/calico/downloads/calico-document-tools-1.0.zip && \
+    jupyter nbextension install --system \
+        https://bitbucket.org/ipre/calico/downloads/calico-cell-tools-1.0.zip && \
+    jupyter nbextension enable --system \
+        calico-spell-check
 
 RUN usermod -l $UE_USER -d /home/$UE_USER -m $DOCKER_USER && \
     groupmod -n $UE_USER $DOCKER_USER && \
