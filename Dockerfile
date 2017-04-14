@@ -13,8 +13,6 @@ WORKDIR /tmp
 ########################################################
 # Customization for user and location
 ########################################################
-
-ENV UE_USER=unifem
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
@@ -65,6 +63,8 @@ RUN pip3 install -U pip setuptools && \
         https://bitbucket.org/ipre/calico/downloads/calico-cell-tools-1.0.zip && \
     jupyter nbextension enable --system \
         calico-spell-check
+
+ENV UE_USER=unifem
 
 RUN usermod -l $UE_USER -d /home/$UE_USER -m $DOCKER_USER && \
     groupmod -n $UE_USER $DOCKER_USER && \
