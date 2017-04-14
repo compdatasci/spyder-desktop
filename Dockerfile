@@ -21,6 +21,15 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
           python3-pip \
           python3-dev \
+          python3-flufl.lock \
+          python3-ply \
+          python3-pytest \
+          python3-six \
+          python3-urllib3 \          
+          python3-numpy \
+          python3-scipy \
+          python3-sympy \
+          python3-matplotlib \
           build-essential \
           bash-completion \
           pandoc \
@@ -32,7 +41,6 @@ RUN apt-get update && \
 # Install jupyter
 RUN pip3 install -U pip setuptools && \
     pip3 install -U \
-         six \
          ipython \
          jupyter \
          ipywidgets && \
