@@ -24,6 +24,7 @@ RUN apt-get update && \
           bash-completion \
           pandoc \
           ttf-dejavu \
+          git \
           bsdtar && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
