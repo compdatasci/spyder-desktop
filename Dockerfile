@@ -25,22 +25,40 @@ RUN apt-get update && \
           pandoc \
           ttf-dejavu \
           git \
-          bsdtar && \
+          bsdtar \
+          \
+          libbz2-dev \
+          libssl-dev \
+          libreadline-dev \
+          libsqlite3-dev \
+          tk-dev \
+          libpng-dev \
+          libfreetype6-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-ENV PATH=$PYENV_ROOT/versions/$PYENV_VERSION/bin:$PATH
 
 # Install jupyter
 RUN git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT && \
     PYTHON_CONFIGURE_OPTS="--enable-shared" \
     $PYENV_ROOT/bin/pyenv install $PYENV_VERSION && \
-    pip3 install -U pip setuptools && \
+    export PATH=$PYENV_ROOT/versions/$PYENV_VERSION/bin:$PATH && \
+    pip3 install -U\
+        pip \
+        setuptools \
+        dev && \
     pip3 install -U \
-         six \
-         ipython \
-         jupyter \
-         ipywidgets && \
+        flufl.lock \
+        numpy \
+        ply \
+        pytest \
+        scipy \
+        sympy \
+        matplotlib \
+        six \
+        urllib3 
+        ipython \
+        jupyter \
+        ipywidgets && \
     jupyter nbextension install --py --system \
          widgetsnbextension && \
     jupyter nbextension enable --py --system \
