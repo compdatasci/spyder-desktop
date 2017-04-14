@@ -32,6 +32,7 @@ RUN apt-get update && \
 # Install jupyter
 RUN pip3 install -U pip setuptools && \
     pip3 install -U \
+         six \
          ipython \
          jupyter \
          ipywidgets && \
