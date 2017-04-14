@@ -14,13 +14,12 @@ WORKDIR /tmp
 # Customization for user and location
 ########################################################
 
-ENV UE_USER=unifem
+ENV PYENV_ROOT=/usr/local/pyenv \
+    PYENV_VERSION=3.6.1
 
 # Set up user so that we do not run as root
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-          python3-pip \
-          python3-dev \
           build-essential \
           bash-completion \
           pandoc \
@@ -29,8 +28,13 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+ENV PATH=$PYENV_ROOT/versions/$PYENV_VERSION/bin:$PATH
+
 # Install jupyter
-RUN pip3 install -U pip setuptools && \
+RUN git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT && \
+    PYTHON_CONFIGURE_OPTS="--enable-shared" \
+    $PYENV_ROOT/bin/pyenv install $PYENV_VERSION && \
+    pip3 install -U pip setuptools && \
     pip3 install -U \
          six \
          ipython \
@@ -55,6 +59,7 @@ RUN pip3 install -U pip setuptools && \
     jupyter nbextension enable --system \
         calico-spell-check
 
+ENV UE_USER=unifem
 RUN usermod -l $UE_USER -d /home/$UE_USER -m $DOCKER_USER && \
     groupmod -n $UE_USER $DOCKER_USER && \
     echo "$UE_USER:docker" | chpasswd && \
