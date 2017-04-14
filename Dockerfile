@@ -55,7 +55,7 @@ RUN git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT && \
         sympy \
         matplotlib \
         six \
-        urllib3 
+        urllib3 \
         ipython \
         jupyter \
         ipywidgets && \
