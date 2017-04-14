@@ -37,11 +37,12 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+ENV PATH=$PYENV_ROOT/versions/$PYENV_VERSION/bin:$PATH
+
 # Install jupyter
 RUN git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT && \
     PYTHON_CONFIGURE_OPTS="--enable-shared" \
     $PYENV_ROOT/bin/pyenv install $PYENV_VERSION && \
-    export PATH=$PYENV_ROOT/versions/$PYENV_VERSION/bin:$PATH && \
     pip3 install -U\
         pip \
         setuptools \
