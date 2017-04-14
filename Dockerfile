@@ -28,7 +28,6 @@ RUN apt-get update && \
           python3-urllib3 \          
           python3-numpy \
           python3-scipy \
-          python3-sympy \
           python3-matplotlib \
           build-essential \
           bash-completion \
@@ -41,6 +40,7 @@ RUN apt-get update && \
 # Install jupyter
 RUN pip3 install -U pip setuptools && \
     pip3 install -U \
+         sympy \
          ipython \
          jupyter \
          ipywidgets && \
