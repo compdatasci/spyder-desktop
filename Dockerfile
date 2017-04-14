@@ -10,13 +10,6 @@ LABEL maintainer "Xiangmin Jiao <xmjiao@gmail.com>"
 USER root
 WORKDIR /tmp
 
-########################################################
-# Customization for user and location
-########################################################
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
-
 # Set up user so that we do not run as root
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -64,6 +57,9 @@ RUN pip3 install -U pip setuptools && \
     jupyter nbextension enable --system \
         calico-spell-check
 
+########################################################
+# Customization for user
+########################################################
 ENV UE_USER=unifem
 
 RUN usermod -l $UE_USER -d /home/$UE_USER -m $DOCKER_USER && \
