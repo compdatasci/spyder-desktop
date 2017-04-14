@@ -10,13 +10,6 @@ LABEL maintainer "Xiangmin Jiao <xmjiao@gmail.com>"
 USER root
 WORKDIR /tmp
 
-########################################################
-# Customization for user and location
-########################################################
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
-
 ENV PYENV_ROOT=/usr/local/pyenv \
     PYENV_VERSION=3.6.1
 
@@ -82,6 +75,9 @@ RUN git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT && \
     jupyter nbextension enable --system \
         calico-spell-check
 
+########################################################
+# Customization for user
+########################################################
 ENV UE_USER=unifem
 RUN usermod -l $UE_USER -d /home/$UE_USER -m $DOCKER_USER && \
     groupmod -n $UE_USER $DOCKER_USER && \
