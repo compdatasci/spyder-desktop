@@ -4,5 +4,5 @@ services: docker
 
 script:
   - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_USERPASS"
-  - docker build --tag unifem/desktop-base . && docker push unifem/desktop-base && curl -X POST https://registry.hub.docker.com/u/unifem/desktop-base/trigger/$DOCKER_TOKEN/
+  - docker build --tag unifem/desktop-base . && docker push unifem/desktop-base
   - docker images
