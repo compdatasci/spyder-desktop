@@ -25,8 +25,6 @@ RUN apt-get update && \
           bash-completion \
           pandoc \
           ttf-dejavu \
-          libzmq \
-          libzmq-dev \
           bsdtar && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
