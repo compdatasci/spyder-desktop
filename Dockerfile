@@ -23,6 +23,9 @@ RUN apt-get update && \
           git \
           bsdtar \
           \
+          ddd \
+          emacs24 \
+          \
           libbz2-dev \
           libssl-dev \
           libreadline-dev \
@@ -52,6 +55,8 @@ RUN git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT && \
         sympy \
         matplotlib \
         six \
+        autopep8 \
+        spyder \
         urllib3 \
         ipython \
         jupyter \
@@ -79,6 +84,7 @@ RUN git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT && \
 # Customization for user
 ########################################################
 ENV UE_USER=unifem
+
 RUN usermod -l $UE_USER -d /home/$UE_USER -m $DOCKER_USER && \
     groupmod -n $UE_USER $DOCKER_USER && \
     echo "$UE_USER:docker" | chpasswd && \
