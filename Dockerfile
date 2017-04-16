@@ -15,10 +15,8 @@ ENV PYENV_ROOT=/usr/local/pyenv \
 
 # Set up user so that we do not run as root
 RUN echo "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse" >> /etc/apt/sources.list && \
-    add-apt-repository ppa:eugenesan/ppa && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
-          git \
           build-essential \
           bash-completion \
           pandoc \
@@ -29,7 +27,6 @@ RUN echo "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted 
           gdb \
           ddd \
           meld \
-          smartgit \
           emacs24 \
           \
           libbz2-dev \
