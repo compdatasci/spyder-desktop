@@ -37,9 +37,13 @@ RUN add-apt-repository ppa:webupd8team/java -y && \
           libpng-dev \
           libfreetype6-dev \
           \
-          oracle-java8-installer \
           libnss3 \
           libxslt1.1 && \
+    echo "oracle-java8-installer  shared/accepted-oracle-license-v1-1 boolean true" > \
+          oracle-license-debconf && \
+    /usr/bin/debconf-set-selections oracle-license-debconf && \
+    apt-get install -q -y --no-install-recommends \
+           oracle-java8-installer oracle-java8-set-default && \
     apt-get clean && \
     curl -O http://www.syntevo.com/static/smart/download/smartgit/smartgit-17_0_3.deb && \
     dpkg -i smartgit-17_0_3.deb && \
