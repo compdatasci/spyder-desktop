@@ -14,8 +14,7 @@ ENV PYENV_ROOT=/usr/local/pyenv \
     PYENV_VERSION=3.6.1
 
 # Set up user so that we do not run as root
-RUN echo "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse" >> /etc/apt/sources.list && \
-    add-apt-repository ppa:webupd8team/java -y && \
+RUN add-apt-repository ppa:webupd8team/java -y && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
           build-essential \
