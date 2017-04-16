@@ -14,6 +14,7 @@ WORKDIR /tmp
 RUN echo "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse" >> /etc/apt/sources.list && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
+          git \
           build-essential \
           g++ \
           python3-pip \
@@ -33,7 +34,9 @@ RUN echo "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted 
           ttf-dejavu \
           bsdtar \
           \
+          gdb \
           ddd \
+          meld \
           emacs24 \
           spyder3 && \
     apt-get clean && \
