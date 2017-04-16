@@ -23,7 +23,9 @@ RUN apt-get update && \
           git \
           bsdtar \
           \
+          gdb \
           ddd \
+          meld \
           emacs24 \
           \
           libbz2-dev \
@@ -32,7 +34,10 @@ RUN apt-get update && \
           libsqlite3-dev \
           tk-dev \
           libpng-dev \
-          libfreetype6-dev && \
+          libfreetype6-dev \
+          \
+          libnss3 \
+          libxslt1.1 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -56,6 +61,7 @@ RUN git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT && \
         matplotlib \
         six \
         autopep8 \
+        PyQt5 \
         spyder \
         urllib3 \
         ipython \
