@@ -15,6 +15,7 @@ ENV PYENV_ROOT=/usr/local/pyenv \
 
 # Set up user so that we do not run as root
 RUN echo "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse" >> /etc/apt/sources.list && \
+    add-apt-repository ppa:webupd8team/java -y && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
           build-essential \
@@ -37,9 +38,12 @@ RUN echo "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted 
           libpng-dev \
           libfreetype6-dev \
           \
+          oracle-java8-installer \
           libnss3 \
           libxslt1.1 && \
     apt-get clean && \
+    curl -O http://www.syntevo.com/static/smart/download/smartgit/smartgit-17_0_3.deb && \
+    dpkg -i smartgit-17_0_3.deb && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ENV PATH=$PYENV_ROOT/versions/$PYENV_VERSION/bin:$PATH
