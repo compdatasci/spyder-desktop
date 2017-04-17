@@ -14,8 +14,7 @@ ENV PYENV_ROOT=/usr/local/pyenv \
     PYENV_VERSION=3.6.1
 
 # Set up user so that we do not run as root
-RUN add-apt-repository ppa:webupd8team/java -y && \
-    apt-get update && \
+RUN apt-get update && \
     apt-get install -y --no-install-recommends \
           build-essential \
           bash-completion \
@@ -39,14 +38,7 @@ RUN add-apt-repository ppa:webupd8team/java -y && \
           \
           libnss3 \
           libxslt1.1 && \
-    echo "oracle-java8-installer  shared/accepted-oracle-license-v1-1 boolean true" > \
-          oracle-license-debconf && \
-    /usr/bin/debconf-set-selections oracle-license-debconf && \
-    apt-get install -q -y --no-install-recommends \
-           oracle-java8-installer oracle-java8-set-default && \
     apt-get clean && \
-    curl -O http://www.syntevo.com/static/smart/download/smartgit/smartgit-17_0_3.deb && \
-    dpkg -i smartgit-17_0_3.deb && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ENV PATH=$PYENV_ROOT/versions/$PYENV_VERSION/bin:$PATH
