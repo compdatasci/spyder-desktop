@@ -11,8 +11,7 @@ USER root
 WORKDIR /tmp
 
 # Set up user so that we do not run as root
-RUN echo "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse" >> /etc/apt/sources.list && \
-    apt-get update && \
+RUN apt-get update && \
     apt-get install -y --no-install-recommends \
           build-essential \
           g++ \
