@@ -10,64 +10,45 @@ LABEL maintainer "Xiangmin Jiao <xmjiao@gmail.com>"
 USER root
 WORKDIR /tmp
 
-ENV PYENV_ROOT=/usr/local/pyenv \
-    PYENV_VERSION=3.6.1
-
 # Set up user so that we do not run as root
-RUN echo "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse" >> /etc/apt/sources.list && \
-    apt-get update && \
+RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+          build-essential \
+          g++ \
+          git \
+          python3-pip \
+          python3-dev \
+          python3-flufl.lock \
+          python3-ply \
+          python3-pytest \
+          python3-six \
+          python3-urllib3 \          
+          python3-numpy \
+          python3-scipy \
+          python3-sphinx \
+          python3-matplotlib \
           build-essential \
           bash-completion \
           pandoc \
           ttf-dejavu \
-          git \
           bsdtar \
           \
           gdb \
           ddd \
           meld \
           emacs24 \
-          \
-          libbz2-dev \
-          libssl-dev \
-          libreadline-dev \
-          libsqlite3-dev \
-          tk-dev \
-          libpng-dev \
-          libfreetype6-dev \
-          \
-          libnss3 \
-          libxslt1.1 && \
+          spyder3 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-ENV PATH=$PYENV_ROOT/versions/$PYENV_VERSION/bin:$PATH
-
 # Install jupyter
-RUN git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT && \
-    PYTHON_CONFIGURE_OPTS="--enable-shared" \
-    $PYENV_ROOT/bin/pyenv install $PYENV_VERSION && \
-    pip3 install -U\
-        pip \
-        setuptools \
-        dev && \
+RUN pip3 install -U pip setuptools && \
     pip3 install -U \
-        flufl.lock \
-        numpy \
-        ply \
-        pytest \
-        scipy \
-        sympy \
-        matplotlib \
-        six \
-        autopep8 \
-        PyQt5 \
-        spyder \
-        urllib3 \
-        ipython \
-        jupyter \
-        ipywidgets && \
+         autopep8 \
+         sympy \
+         ipython \
+         jupyter \
+         ipywidgets && \
     jupyter nbextension install --py --system \
          widgetsnbextension && \
     jupyter nbextension enable --py --system \
