@@ -14,8 +14,8 @@ WORKDIR /tmp
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
           build-essential \
-          g++ \
           git \
+          bash-completion \
           python3-pip \
           python3-dev \
           python3-flufl.lock \
@@ -32,7 +32,6 @@ RUN apt-get update && \
           pandoc \
           ttf-dejavu \
           bsdtar \
-          \
           gdb \
           ddd \
           meld \
