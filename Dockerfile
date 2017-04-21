@@ -75,8 +75,8 @@ RUN pip3 install -U pip setuptools && \
 # Install smartgit and customize atom
 RUN curl -O http://www.syntevo.com/static/smart/download/smartgit/smartgit-${SMARTGIT_VER}.deb && \
     dpkg -i smartgit-${SMARTGIT_VER}.deb && \
-    apm install language-matlab linter-matlab
-    rm -rf /tmp/* /var/tmp/* && \
+    apm install language-matlab linter-matlab && \
+    rm -rf /tmp/* /var/tmp/*
 
 ########################################################
 # Customization for user
