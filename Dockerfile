@@ -1,5 +1,5 @@
-# Builds a Docker image for development environment
-# with Ubuntu, LXDE, and Jupyter Notebook.
+# Builds a Docker image for development environment with
+# Ubuntu, LXDE, Atom, SmartGit, and Jupyter Notebook.
 #
 # Authors:
 # Xiangmin Jiao <xmjiao@gmail.com>
@@ -10,8 +10,12 @@ LABEL maintainer "Xiangmin Jiao <xmjiao@gmail.com>"
 USER root
 WORKDIR /tmp
 
-# Set up user so that we do not run as root
-RUN apt-get update && \
+# Environment variables
+ENV SMARTGIT_VER=17_0_3
+
+# Install system packages
+RUN add-apt-repository ppa:webupd8team/atom && \
+    apt-get update && \
     apt-get install -y --no-install-recommends \
           build-essential \
           git \
@@ -31,11 +35,12 @@ RUN apt-get update && \
           bash-completion \
           pandoc \
           ttf-dejavu \
+          openjdk-8-jre-headless \
           bsdtar \
           gdb \
           ddd \
           meld \
-          emacs24 \
+          atom \
           spyder3 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -66,6 +71,12 @@ RUN pip3 install -U pip setuptools && \
         https://bitbucket.org/ipre/calico/downloads/calico-cell-tools-1.0.zip && \
     jupyter nbextension enable --system \
         calico-spell-check
+
+# Install smartgit and customize atom
+RUN curl -O http://www.syntevo.com/static/smart/download/smartgit/smartgit-${SMARTGIT_VER}.deb && \
+    dpkg -i smartgit-${SMARTGIT_VER}.deb && \
+    apm install language-matlab linter-matlab
+    rm -rf /tmp/* /var/tmp/* && \
 
 ########################################################
 # Customization for user
