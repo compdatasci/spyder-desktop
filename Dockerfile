@@ -4,7 +4,7 @@
 # Authors:
 # Xiangmin Jiao <xmjiao@gmail.com>
 
-FROM x11vnc/ubuntu:latest
+FROM numgeom/desktop-base:latest
 LABEL maintainer "Xiangmin Jiao <xmjiao@gmail.com>"
 
 USER root
@@ -16,18 +16,8 @@ ENV PYENV_ROOT=/usr/local/pyenv \
 # Set up user so that we do not run as root
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-          build-essential \
-          bash-completion \
           pandoc \
           ttf-dejavu \
-          git \
-          bsdtar \
-          \
-          gdb \
-          ddd \
-          meld \
-          emacs24 \
-          \
           libbz2-dev \
           libssl-dev \
           libreadline-dev \
@@ -39,7 +29,7 @@ RUN apt-get update && \
           libnss3 \
           libxslt1.1 && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    rm -rf /var/lib/apt/lists/*
 
 ENV PATH=$PYENV_ROOT/versions/$PYENV_VERSION/bin:$PATH
 
@@ -84,7 +74,8 @@ RUN git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT && \
     jupyter nbextension install --system \
         https://bitbucket.org/ipre/calico/downloads/calico-cell-tools-1.0.zip && \
     jupyter nbextension enable --system \
-        calico-spell-check
+        calico-spell-check && \
+    rm -rf /tmp/* /var/tmp/*
 
 ########################################################
 # Customization for user
