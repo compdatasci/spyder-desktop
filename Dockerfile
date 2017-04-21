@@ -4,19 +4,15 @@
 # Authors:
 # Xiangmin Jiao <xmjiao@gmail.com>
 
-FROM x11vnc/ubuntu:latest
+FROM numgeom/desktop-base:latest
 LABEL maintainer "Xiangmin Jiao <xmjiao@gmail.com>"
 
 USER root
 WORKDIR /tmp
 
 # Install system packages
-RUN add-apt-repository ppa:webupd8team/atom && \
-    apt-get update && \
+RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-          build-essential \
-          git \
-          bash-completion \
           python3-pip \
           python3-dev \
           python3-flufl.lock \
@@ -28,17 +24,9 @@ RUN add-apt-repository ppa:webupd8team/atom && \
           python3-scipy \
           python3-sphinx \
           python3-matplotlib \
-          build-essential \
-          bash-completion \
           pandoc \
           ttf-dejavu \
-          bsdtar \
-          gdb \
-          ddd \
-          meld \
-          atom \
           spyder3 && \
-    apm install language-matlab linter-matlab && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
