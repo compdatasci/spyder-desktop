@@ -1,5 +1,5 @@
-# Builds a Docker image for development environment
-# with Ubuntu, LXDE, and Jupyter Notebook.
+# Builds a Docker image for development environment with
+# Ubuntu, LXDE, Atom, and Jupyter Notebook.
 #
 # Authors:
 # Xiangmin Jiao <xmjiao@gmail.com>
@@ -13,7 +13,6 @@ WORKDIR /tmp
 ENV PYENV_ROOT=/usr/local/pyenv \
     PYENV_VERSION=3.6.1
 
-# Set up user so that we do not run as root
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
           pandoc \
@@ -80,19 +79,19 @@ RUN git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT && \
 ########################################################
 # Customization for user
 ########################################################
-ENV UE_USER=unifem
-
-RUN usermod -l $UE_USER -d /home/$UE_USER -m $DOCKER_USER && \
-    groupmod -n $UE_USER $DOCKER_USER && \
-    echo "$UE_USER:docker" | chpasswd && \
-    echo "$UE_USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
-    sed -i "s/$DOCKER_USER/$UE_USER/" /home/$UE_USER/.config/pcmanfm/LXDE/desktop-items-0.conf && \
-    chown -R $UE_USER:$UE_USER /home/$UE_USER
-
+ENV OLD_USER=$DOCKER_USER \
+    UE_USER=unifem
 ENV DOCKER_USER=$UE_USER \
     DOCKER_GROUP=$UE_USER \
     DOCKER_HOME=/home/$UE_USER \
     HOME=/home/$UE_USER
+
+RUN usermod -l $DOCKER_USER -d $DOCKER_HOME -m $OLD_USER && \
+    groupmod -n $DOCKER_USER $OLD_USER && \
+    echo "$DOCKER_USER:docker" | chpasswd && \
+    echo "$DOCKER_USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
+    echo "export OMP_NUM_THREADS=\$(nproc)" >> $DOCKER_HOME/.profile && \
+    chown -R $DOCKER_USER:$DOCKER_GROUP $DOCKER_HOME
 
 WORKDIR $DOCKER_HOME
 
