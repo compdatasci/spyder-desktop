@@ -61,19 +61,19 @@ RUN pip3 install -U pip setuptools && \
 ########################################################
 # Customization for user
 ########################################################
-ENV UE_USER=unifem
-
-RUN usermod -l $UE_USER -d /home/$UE_USER -m $DOCKER_USER && \
-    groupmod -n $UE_USER $DOCKER_USER && \
-    echo "$UE_USER:docker" | chpasswd && \
-    echo "$UE_USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
-    sed -i "s/$DOCKER_USER/$UE_USER/" /home/$UE_USER/.config/pcmanfm/LXDE/desktop-items-0.conf && \
-    chown -R $UE_USER:$UE_USER /home/$UE_USER
-
+ENV OLD_USER=$DOCKER_USER \
+    UE_USER=unifem
 ENV DOCKER_USER=$UE_USER \
     DOCKER_GROUP=$UE_USER \
     DOCKER_HOME=/home/$UE_USER \
     HOME=/home/$UE_USER
+
+RUN usermod -l $DOCKER_USER -d $DOCKER_HOME -m $OLD_USER && \
+    groupmod -n $DOCKER_USER $OLD_USER && \
+    echo "$DOCKER_USER:docker" | chpasswd && \
+    echo "$DOCKER_USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
+    echo "export OMP_NUM_THREADS=\$(nproc)" >> $DOCKER_HOME/.profile && \
+    chown -R $DOCKER_USER:$DOCKER_GROUP $DOCKER_HOME
 
 WORKDIR $DOCKER_HOME
 
