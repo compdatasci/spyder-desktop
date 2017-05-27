@@ -111,7 +111,6 @@ RUN usermod -l $DOCKER_USER -d $DOCKER_HOME -m $OLD_USER && \
         linter-pylint \
         linter-matlab \
         dbg \
-        output-panel \
         dbg-gdb \
         python-autopep8 \
         clang-format && \
