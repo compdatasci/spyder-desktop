@@ -88,6 +88,7 @@ RUN usermod -l $DOCKER_USER -d $DOCKER_HOME -m $OLD_USER && \
         merge-conflicts \
         split-diff \
         gcc-make-run \
+        platformio-ide-terminal \
         intentions \
         busy-signal \
         linter-ui-default \
@@ -95,10 +96,11 @@ RUN usermod -l $DOCKER_USER -d $DOCKER_HOME -m $OLD_USER && \
         linter-gcc \
         linter-gfortran \
         linter-pylint \
-        linter-matlab \
         dbg \
         output-panel \
         dbg-gdb \
+        python-debugger \
+        auto-detect-indentation \
         python-autopep8 \
         clang-format && \
     chown -R $DOCKER_USER:$DOCKER_GROUP $DOCKER_HOME
