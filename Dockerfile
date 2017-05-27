@@ -110,8 +110,6 @@ RUN usermod -l $DOCKER_USER -d $DOCKER_HOME -m $OLD_USER && \
         linter-gfortran \
         linter-pylint \
         linter-matlab \
-        dbg \
-        dbg-gdb \
         python-autopep8 \
         clang-format && \
     chown -R $DOCKER_USER:$DOCKER_GROUP $DOCKER_HOME
