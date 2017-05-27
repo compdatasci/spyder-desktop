@@ -15,29 +15,33 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
           python3-pip \
           python3-dev \
-          python3-flufl.lock \
-          python3-ply \
-          python3-pytest \
-          python3-six \
-          python3-urllib3 \          
-          python3-numpy \
-          python3-scipy \
-          python3-sphinx \
-          python3-matplotlib \
           pandoc \
-          ttf-dejavu \
-          spyder3 && \
+          ttf-dejavu && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install jupyter
 RUN pip3 install -U pip setuptools && \
     pip3 install -U \
-         autopep8 \
-         sympy \
-         ipython \
-         jupyter \
-         ipywidgets && \
+          numpy \
+          matplotlib \
+          sympy \
+          scipy \
+          pandas \
+          nose \
+          sphinx \
+          autopep8 \
+          pylint \
+          flufl.lock \
+          ply \
+          pytest \
+          six \
+          PyQt5 \
+          spyder \
+          urllib3 \
+          ipython \
+          jupyter \
+          ipywidgets && \
     jupyter nbextension install --py --system \
          widgetsnbextension && \
     jupyter nbextension enable --py --system \
