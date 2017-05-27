@@ -91,27 +91,6 @@ RUN usermod -l $DOCKER_USER -d $DOCKER_HOME -m $OLD_USER && \
     echo "$DOCKER_USER:docker" | chpasswd && \
     echo "$DOCKER_USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
     echo "export OMP_NUM_THREADS=\$(nproc)" >> $DOCKER_HOME/.profile && \
-    apm install \
-        language-cpp14 \
-        language-matlab \
-        language-fortran \
-        language-docker \
-        autocomplete-python \
-        autocomplete-fortran \
-        git-plus \
-        merge-conflicts \
-        split-diff \
-        gcc-make-run \
-        intentions \
-        busy-signal \
-        linter-ui-default \
-        linter \
-        linter-gcc \
-        linter-gfortran \
-        linter-pylint \
-        linter-matlab \
-        python-autopep8 \
-        clang-format && \
     chown -R $DOCKER_USER:$DOCKER_GROUP $DOCKER_HOME
 
 WORKDIR $DOCKER_HOME
