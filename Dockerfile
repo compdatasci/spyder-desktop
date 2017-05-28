@@ -31,6 +31,7 @@ RUN pip3 install -U pip setuptools && \
           nose \
           sphinx \
           autopep8 \
+          flake8 \
           pylint \
           flufl.lock \
           ply \
@@ -95,7 +96,7 @@ RUN usermod -l $DOCKER_USER -d $DOCKER_HOME -m $OLD_USER && \
         linter \
         linter-gcc \
         linter-gfortran \
-        linter-pylint \
+        linter-flake8 \
         dbg \
         output-panel \
         dbg-gdb \
@@ -109,4 +110,4 @@ WORKDIR $DOCKER_HOME
 
 USER root
 ENTRYPOINT ["/sbin/my_init","--quiet","--","/sbin/setuser","unifem","/bin/bash","-l","-c"]
-CMD ["/bin/bash","-l","-i"]
+CMD ["$DOCKER_SHELL","-l","-i"]
