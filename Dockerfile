@@ -37,25 +37,30 @@ RUN git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT && \
     PYTHON_CONFIGURE_OPTS="--enable-shared" \
     $PYENV_ROOT/bin/pyenv install $PYENV_VERSION && \
     pip3 install -U\
-        pip \
-        setuptools \
-        dev && \
+          pip \
+          setuptools \
+          dev && \
     pip3 install -U \
-        flufl.lock \
-        numpy \
-        ply \
-        pytest \
-        scipy \
-        sympy \
-        matplotlib \
-        six \
-        autopep8 \
-        PyQt5 \
-        spyder \
-        urllib3 \
-        ipython \
-        jupyter \
-        ipywidgets && \
+          numpy \
+          matplotlib \
+          sympy \
+          scipy \
+          pandas \
+          nose \
+          sphinx \
+          autopep8 \
+          flake8 \
+          pylint \
+          flufl.lock \
+          ply \
+          pytest \
+          six \
+          PyQt5 \
+          spyder \
+          urllib3 \
+          ipython \
+          jupyter \
+          ipywidgets && \
     jupyter nbextension install --py --system \
          widgetsnbextension && \
     jupyter nbextension enable --py --system \
@@ -91,10 +96,33 @@ RUN usermod -l $DOCKER_USER -d $DOCKER_HOME -m $OLD_USER && \
     echo "$DOCKER_USER:docker" | chpasswd && \
     echo "$DOCKER_USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
     echo "export OMP_NUM_THREADS=\$(nproc)" >> $DOCKER_HOME/.profile && \
+    apm install \
+        language-cpp14 \
+        language-matlab \
+        language-fortran \
+        language-docker \
+        autocomplete-python \
+        autocomplete-fortran \
+        git-plus \
+        merge-conflicts \
+        split-diff \
+        gcc-make-run \
+        platformio-ide-terminal \
+        intentions \
+        busy-signal \
+        linter-ui-default \
+        linter \
+        linter-gcc \
+        linter-gfortran \
+        linter-flake8 \
+        python-debugger \
+        auto-detect-indentation \
+        python-autopep8 \
+        clang-format && \
     chown -R $DOCKER_USER:$DOCKER_GROUP $DOCKER_HOME
 
 WORKDIR $DOCKER_HOME
 
 USER root
 ENTRYPOINT ["/sbin/my_init","--quiet","--","/sbin/setuser","unifem","/bin/bash","-l","-c"]
-CMD ["/bin/bash","-l","-i"]
+CMD ["$DOCKER_SHELL","-l","-i"]
