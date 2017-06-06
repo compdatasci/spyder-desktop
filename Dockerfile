@@ -12,6 +12,7 @@ WORKDIR /tmp
 # Install system packages, Scipy, and jupyter-notebook
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+          git \
           python3-dev \
           pandoc \
           ttf-dejavu && \
