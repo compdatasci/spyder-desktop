@@ -4,5 +4,5 @@ services: docker
 
 script:
   - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_USERPASS"
-  - docker build --tag unifem/desktop-base . && docker push unifem/desktop-base
+  - docker build --tag compdatasci/spyder-desktop . && docker push compdatasci/spyder-desktop
   - docker images
