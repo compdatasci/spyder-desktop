@@ -1,10 +1,9 @@
-# Builds a Docker image for development environment with
-# Ubuntu, LXDE, Atom, and Jupyter Notebook.
+# Builds a Docker image for Spyder.
 #
 # Authors:
 # Xiangmin Jiao <xmjiao@gmail.com>
 
-FROM numgeom/desktop-base:latest
+FROM x11vnc/desktop:latest
 LABEL maintainer "Xiangmin Jiao <xmjiao@gmail.com>"
 
 USER root
@@ -81,48 +80,4 @@ RUN git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT && \
         calico-spell-check && \
     rm -rf /tmp/* /var/tmp/*
 
-########################################################
-# Customization for user
-########################################################
-ENV OLD_USER=$DOCKER_USER \
-    UE_USER=unifem
-ENV DOCKER_USER=$UE_USER \
-    DOCKER_GROUP=$UE_USER \
-    DOCKER_HOME=/home/$UE_USER \
-    HOME=/home/$UE_USER
-
-RUN usermod -l $DOCKER_USER -d $DOCKER_HOME -m $OLD_USER && \
-    groupmod -n $DOCKER_USER $OLD_USER && \
-    echo "$DOCKER_USER:docker" | chpasswd && \
-    echo "$DOCKER_USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
-    echo "export OMP_NUM_THREADS=\$(nproc)" >> $DOCKER_HOME/.profile && \
-    apm install \
-        language-cpp14 \
-        language-matlab \
-        language-fortran \
-        language-docker \
-        autocomplete-python \
-        autocomplete-fortran \
-        git-plus \
-        merge-conflicts \
-        split-diff \
-        gcc-make-run \
-        platformio-ide-terminal \
-        intentions \
-        busy-signal \
-        linter-ui-default \
-        linter \
-        linter-gcc \
-        linter-gfortran \
-        linter-flake8 \
-        python-debugger \
-        auto-detect-indentation \
-        python-autopep8 \
-        clang-format && \
-    chown -R $DOCKER_USER:$DOCKER_GROUP $DOCKER_HOME
-
 WORKDIR $DOCKER_HOME
-
-USER root
-ENTRYPOINT ["/sbin/my_init","--quiet","--","/sbin/setuser","unifem","/bin/bash","-l","-c"]
-CMD ["$DOCKER_SHELL","-l","-i"]
