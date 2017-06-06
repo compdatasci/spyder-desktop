@@ -79,6 +79,12 @@ RUN git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT && \
         https://bitbucket.org/ipre/calico/downloads/calico-cell-tools-1.0.zip && \
     jupyter nbextension enable --system \
         calico-spell-check && \
-    rm -rf /tmp/* /var/tmp/*
+    \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+    \
+    touch $DOCKER_HOME/.log/jupyter.log && \
+    \
+    echo '@spyder' >> $DOCKER_HOME/.config/lxsession/LXDE/autostart && \
+    chown -R $DOCKER_USER:$DOCKER_GROUP $DOCKER_HOME
 
 WORKDIR $DOCKER_HOME
