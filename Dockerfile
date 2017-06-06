@@ -37,7 +37,7 @@ RUN apt-get update && \
          requests \
          progressbar2 \
          PyDrive \
-         \s
+         \
          spyder \
          ipython \
          jupyter \
