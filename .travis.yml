@@ -29,7 +29,7 @@ script:
         -z "$(git diff --name-only $TRAVIS_COMMIT_RANGE |
             grep -e Dockerfile -e .travis.yml)" ]] || [[ "$XVFB" != "1" ]] ||
      (docker build --tag compdatasci/spyder-desktop:pyenv . &&
-      docker push compdatasci/pyenv &&
+      docker push compdatasci/spyder-desktop:pyenv &&
       touch success)'
   # Test script without launching webbrowser and push new image if successful
   - git clone https://github.com/compdatasci/spyder-desktop master
