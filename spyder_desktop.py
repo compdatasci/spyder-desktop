@@ -24,11 +24,6 @@ def parse_args(description):
     # Process command-line arguments
     parser = argparse.ArgumentParser(description=description)
 
-    parser.add_argument('-u', "--user",
-                        help='The username used by the image. ' +
-                        ' The default is to retrieve from image.',
-                        default="")
-
     parser.add_argument('-i', '--image',
                         help='The Docker image to use. ' +
                         'The default is compdatasci/' + APP + '-desktop.',
@@ -186,6 +181,10 @@ if __name__ == "__main__":
             print('Then, log out and log back in before you can use Docker.')
             sys.exit(-1)
         uid = str(os.getuid())
+        if uid == '0':
+            print('You are running as root. This is not safe. ' +
+                  'Please run as a regular user.')
+            sys.exit(-1)
     else:
         uid = ""
 
@@ -211,44 +210,41 @@ if __name__ == "__main__":
                                             '-q']).find(img) >= 0:
             subprocess.Popen(["docker", "rmi", "-f", img.decode('utf-8')[:-1]])
 
-    # Generate a container ID and find an unused port
-    container = id_generator()
-    port_vnc = str(find_free_port(6080, 50))
-
     # Create directory .ssh if not exist
     if not os.path.exists(homedir + "/.ssh"):
         os.mkdir(homedir + "/.ssh")
 
-    if args.user:
-        docker_home = "/home/" + args.user
-    else:
-        docker_home = subprocess.check_output(["docker", "run", "--rm",
-                                               args.image,
-                                               "echo $DOCKER_HOME"]). \
-            decode('utf-8')[:-1]
-        user = docker_home[6:]
-
-    # Create .gitconfig if not exist
-    if not os.path.isfile(homedir + "/.gitconfig"):
-        with open(homedir + "/.gitconfig") as f:
-            pass
+    docker_home = subprocess.check_output(["docker", "run", "--rm",
+                                           args.image,
+                                           "echo $DOCKER_HOME"]). \
+        decode('utf-8')[:-1]
+    user = docker_home[6:]
 
     if args.reset:
         subprocess.check_output(["docker", "volume", "rm", "-f",
-                                 APP+"_config"])
+                                 APP + "_config"])
 
     volumes = ["-v", pwd + ":" + docker_home + "/shared",
-               "-v", APP+"_config:" + docker_home + "/.config",
-               "-v", homedir + "/.ssh" + ":" + docker_home + "/.ssh",
-               "-v", homedir + "/.gitconfig" +
-               ":" + docker_home + "/.gitconfig"]
+               "-v", APP + "_config:" + docker_home + "/.config",
+               "-v", homedir + "/.ssh" + ":" + docker_home + "/.ssh"]
+
+    # Copy .gitconfig if exists on host and is newer than that in image
+    if os.path.isfile(homedir + "/.gitconfig"):
+        subprocess.check_output(["docker", "run", "--rm", '-t'] + volumes +
+                                ["-v", homedir + "/.gitconfig" +
+                                 ":" + docker_home + "/.gitconfig_host",
+                                 args.image,
+                                 "[[ $DOCKER_HOME/.config/git/config -nt " +
+                                 "$DOCKER_HOME/.gitconfig_host ]] || " +
+                                 "(mkdir -p $DOCKER_HOME/.config/git && " +
+                                 "cp $DOCKER_HOME/.gitconfig_host " +
+                                 "$DOCKER_HOME/.config/git/config)"])
 
     if args.volume:
         volumes += ["-v", args.volume + ":" + docker_home + "/project",
                     "-w", docker_home + "/project"]
     else:
         volumes += ["-w", docker_home + "/shared"]
-
     print("Starting up docker image...")
     if subprocess.check_output(["docker", "--version"]). \
             find(b"Docker version 1.") >= 0:
@@ -266,11 +262,15 @@ if __name__ == "__main__":
     else:
         size = args.size
 
+    # Generate a container ID
+    container = id_generator()
+
     envs = ["--hostname", container,
             "--env", "RESOLUT=" + size,
             "--env", "HOST_UID=" + uid]
 
     # Start the docker image in the background and pipe the stderr
+    port_vnc = str(find_free_port(6080, 50))
     subprocess.call(["docker", "run", "-d", rmflag, "--name", container,
                      "-p", "127.0.0.1:" + port_vnc + ":6080"] +
                     envs + volumes +
