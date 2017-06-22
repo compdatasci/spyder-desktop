@@ -9,11 +9,6 @@ env:
   - XVFB=0
 
 before_install:
-  # Install latest version of docker-ce
-  - sudo apt-get remove docker-engine
-  - curl -O https://apt.dockerproject.org/repo/pool/main/d/docker-engine/docker-engine_17.05.0~ce-0~ubuntu-trusty_amd64.deb
-  - echo "Y\n" | sudo dpkg -i docker-engine_17.05.0~ce-0~ubuntu-trusty_amd64.deb
-
   # Start up xvfb
   - '[[ "$XVFB" != "1" ]] || /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid
      --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16'
