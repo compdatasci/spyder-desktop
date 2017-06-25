@@ -47,6 +47,7 @@ RUN apt-get update && \
          ipython \
          jupyter \
          ipywidgets && \
+    ln -s -f /usr/local/bin/spyder3 /usr/local/bin/spyder && \
     jupyter nbextension install --py --system \
          widgetsnbextension && \
     jupyter nbextension enable --py --system \
