@@ -15,6 +15,7 @@ RUN apt-get update && \
           git \
           python3-dev \
           pandoc \
+          libnss3 \
           ttf-dejavu && \
     apt-get clean && \
     \
@@ -69,7 +70,7 @@ RUN apt-get update && \
     \
     touch $DOCKER_HOME/.log/jupyter.log && \
     \
-    echo '@spyder' >> $DOCKER_HOME/.config/lxsession/LXDE/autostart && \
+    echo '@spyder3' >> $DOCKER_HOME/.config/lxsession/LXDE/autostart && \
     chown -R $DOCKER_USER:$DOCKER_GROUP $DOCKER_HOME
 
 WORKDIR $DOCKER_HOME
