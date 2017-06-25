@@ -14,6 +14,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
           git \
           python3-dev \
+          python3-tk \
           pandoc \
           ttf-dejavu && \
     apt-get clean && \
@@ -39,6 +40,9 @@ RUN apt-get update && \
          progressbar2 \
          PyDrive \
          \
+         autopep8 \
+         flake8 \
+         PyQt5 \
          spyder \
          ipython \
          jupyter \
