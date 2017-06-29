@@ -14,10 +14,10 @@ If you use Windows, you need to install Python if you have not yet done so. The 
 ### Installing Docker
 Download the Docker Community Edition for free at https://www.docker.com/community-edition#/download and then run the installer. Note that you need administrator's privilege to install Docker. After installation, make sure you launch Docker before proceeding to the next step.
 
-**Important Notes for Windows Users**
+**Notes for Windows Users**
 1. Docker only supports 64-bit Windows 10 Pro or higher. If you have Windows 8 or Windows 10 Home, you need to upgrade your Windows operating system before installing Docker. Stony Brook students can get Windows 10 Education free of charge at https://stonybrook.onthehub.com. Note that the older [Docker Toolbox](https://www.docker.com/products/docker-toolbox) supports older versions of Windows, but it should not be used.
 2. After installing Docker, you may need to restart your computer to enable virtualization and Microsoft Hyper-V.
-3. For security reasons, you should use Docker in a standard user account instead of the Administrator account, even if you are the sole user on the computer. For Docker version 17.06 or later, you must add yourself to be a member of the group “docker-users” to run Docker for Windows.
+3. For security reasons, do not use Docker in the Administrator account, even if you are the sole user on the computer. For Docker version 17.06 or later, your Windows account must be a member of the local group “docker-users” for you to run Docker. To add your account to the group, you need to log into an Adminstrator account and run `Computer Management`. Open up `Local Users and Groups`, select `Groups`, right click on `docker-users` in the list, and then click on `Add to Group...` to add your username to the group.
 4. If you previously installed VMWare or VirtualBox on your Windows computer, they might conflict with Docker. You may get an error message stating that virtualization must be enabled when starting Docker, even though virtualization was already enabled. To resolve the issue, go to Windows Features in the Control Panel, disable Hyper-V and then re-enable it.
 5. When you use Docker for the first time, you must change its settings to make the C drive shared. To do this, right-click the Docker icon in the system tray, and then click on `Settings...`. Go to `Shared Drives` tab and check the C drive.
 6. Docker for Windows saves the images and data volumes in a shared public folder `C:\Users\Public\Documents\Hyper-V\Virtual Hard Disks\MobyLinuxVM.vhdx`. This is a major security risk because all your images and data can be accessed and modified by other Docker users on the same computer. If you are using a shared Windows computer, make sure you create a private folder such as `C:\Users\YourUserName\Documents\Hyper-V\Virtual Hard Disks` and then go to `Advanced` tab in Docker Settings, and change the `Image and Volume VHD Location` to this folder.
@@ -28,6 +28,9 @@ Download the Docker Community Edition for free at https://www.docker.com/communi
 sudo adduser $USER docker
 ```
 Then, log out and log back in before you can use Docker.
+
+**Notes for Mac Users**
+On Mac, the clock in Docker would lag when your computer goes to sleep and then wakes up. You can resolve this issue either by restarting Docker after waking up or by installing [sync-docker-time](https://github.com/x11vnc/sync-docker-time).
 ## Running the Docker Image
 To run the Docker image, first download the script [`spyder_desktop.py`](https://raw.githubusercontent.com/compdatasci/spyder-desktop/master/spyder_desktop.py)
 and save it to the working directory where you will store your codes and data. You can download the script using command line: On Windows, start `Windows PowerShell`, use the `cd` command to change to the working directory where you will store your codes and data, and then run the following command:
@@ -101,4 +104,7 @@ If your Docker desktop environment started automatically in a non-recommended br
 directory that you might have mounted explicitly are persistent. Any change to files in other directories will be lost when the Docker container stops. Use `$HOME/.config` to store the configuration files of the desktop environment. `$HOME/shared` maps to the working directory on the host, and you are recommended to use it or a mounted project directory to store codes and data.
 3. The `$HOME/.ssh` directory in the Docker container maps to the `.ssh` directory on your host computer. This is particularly convenient for you to use your ssh-keys for authentications with git repositories (such as github or bitbucket). To use your ssh keys, run the `ssh-add` in a terminal to add your keys to the ssh-agent.
 4. You can copy and paste between the host and the Docker desktop through the `Clipboard` box in the left toolbar, which is synced automatically with the clipboard of the Docker desktop. To copy from the Docker desktop to the host, first, select the text in the Docker desktop, and then go to the `Clipboard` box to copy. To copy from host to the Docker desktop, first, paste the text into the `Clipboard` box, and then paste the text in the Docker desktop.
-5. On Mac laptops, the clock in Docker would lag when your laptop goes to sleep and then wakes up. You can resolve this issue by either restarting Docker or simply installing [sync-docker-time](https://github.com/x11vnc/sync-docker-time).
+5. To stop the Docker container, do not just close the browser window, because the Docker container would still be running in the background. Instead, you can stop the container using one of the following approaches:
+ - Use the `logout` button in the lower-left corner of the Docker desktop,
+ - Press Ctrl-C twice in the terminal where you started the python script, or
+ - Run the command `docker stop <Container ID>` in a terminal on the host, and you can find the `Container ID` using the `docker ps -a` command.
