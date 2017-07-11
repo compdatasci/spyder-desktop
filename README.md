@@ -22,15 +22,16 @@ Download the Docker Community Edition for free at https://www.docker.com/communi
 5. When you use Docker for the first time, you must change its settings to make the C drive shared. To do this, right-click the Docker icon in the system tray, and then click on `Settings...`. Go to `Shared Drives` tab and check the C drive.
 6. Docker for Windows saves the images and data volumes in a shared public folder `C:\Users\Public\Documents\Hyper-V\Virtual Hard Disks\MobyLinuxVM.vhdx`. This is a major security risk because all your images and data can be accessed and modified by other Docker users on the same computer. If you are using a shared Windows computer, make sure you create a private folder such as `C:\Users\YourUserName\Documents\Hyper-V\Virtual Hard Disks` and then go to `Advanced` tab in Docker Settings, and change the `Image and Volume VHD Location` to this folder.
 
+**Notes for Mac Users**
+1. Docker Version 17.06.0-ce [has a bug](https://github.com/docker/for-mac/issues/1809) that causes Docker to restart when your computer wakes up from sleep and when your network settings change. As a workaround, change the Proxies setting in Docker's preferences to "No Proxy".
+2. On Mac, the clock in Docker would lag when your computer goes to sleep and then wakes up. You can resolve this issue either by restarting Docker after waking up or by installing [sync-docker-time](https://github.com/x11vnc/sync-docker-time).
+
 **Notes for Linux Users**
 * After you install Docker, make sure you add yourself to the Docker group by running the command:
 ```
 sudo adduser $USER docker
 ```
 Then, log out and log back in before you can use Docker.
-
-**Notes for Mac Users**
-On Mac, the clock in Docker would lag when your computer goes to sleep and then wakes up. You can resolve this issue either by restarting Docker after waking up or by installing [sync-docker-time](https://github.com/x11vnc/sync-docker-time).
 ## Running the Docker Image
 To run the Docker image, first download the script [`spyder_desktop.py`](https://raw.githubusercontent.com/compdatasci/spyder-desktop/master/spyder_desktop.py)
 and save it to the working directory where you will store your codes and data. You can download the script using command line: On Windows, start `Windows PowerShell`, use the `cd` command to change to the working directory where you will store your codes and data, and then run the following command:
