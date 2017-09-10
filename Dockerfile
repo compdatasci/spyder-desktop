@@ -47,7 +47,6 @@ RUN apt-get update && \
          ipython \
          jupyter \
          ipywidgets && \
-    ln -s -f /usr/local/bin/spyder3 /usr/local/bin/spyder && \
     jupyter nbextension install --py --system \
          widgetsnbextension && \
     jupyter nbextension enable --py --system \
@@ -71,7 +70,7 @@ RUN apt-get update && \
     \
     touch $DOCKER_HOME/.log/jupyter.log && \
     \
-    echo '@spyder3' >> $DOCKER_HOME/.config/lxsession/LXDE/autostart && \
+    echo '@spyder' >> $DOCKER_HOME/.config/lxsession/LXDE/autostart && \
     chown -R $DOCKER_USER:$DOCKER_GROUP $DOCKER_HOME
 
 WORKDIR $DOCKER_HOME
