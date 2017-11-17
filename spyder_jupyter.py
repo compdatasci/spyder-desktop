@@ -121,7 +121,7 @@ def handle_interrupt(container):
     except KeyboardInterrupt:
         print('*** Stopping the server.')
         subprocess.Popen(["docker", "exec", container,
-                          "killall", "startvnc.sh"],
+                          "killall", "my_init"],
                          stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         sys.exit(0)
 
@@ -238,7 +238,8 @@ if __name__ == "__main__":
                     if ind >= 0:
                         # Open browser if found URL
                         if not args.notebook:
-                            url = "http://localhost:" + stdout_line[ind+15:-1]
+                            url = "http://localhost:" + \
+                                stdout_line[ind + 15:-1]
                         else:
                             url = "http://localhost:" + port_http + \
                                 "/notebooks/" + args.notebook + \
