@@ -1,4 +1,4 @@
-# Builds a Docker image for Spyder and Jupyter Notebook for Scipy
+# Builds a Docker image for Spyder and Jupyter Notebook
 #
 # Authors:
 # Xiangmin Jiao <xmjiao@gmail.com>
@@ -28,6 +28,7 @@ RUN apt-get update && \
          sympy \
          scipy \
          pandas \
+         cython \
          nose \
          sphinx \
          flufl.lock \
