@@ -24,6 +24,7 @@ script:
         -z "$(git diff --name-only $TRAVIS_COMMIT_RANGE |
             grep -e Dockerfile -e .travis.yml)" ]] || [[ "$XVFB" != "1" ]] ||
      (docker build --tag compdatasci/spyder-desktop:3.6.3
+                   --tag compdatasci/spyder-desktop:artful
                    --tag compdatasci/spyder-desktop:latest . &&
       docker push compdatasci/spyder-desktop &&
       touch success)'

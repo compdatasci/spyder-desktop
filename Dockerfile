@@ -11,34 +11,59 @@ WORKDIR /tmp
 
 ADD image/home $DOCKER_HOME
 
-# Install system packages, Scipy, and jupyter-notebook
+# Install system packages, Scipy, PyDrive, and jupyter-notebook
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-          git \
           python3-dev \
-          python3-pip \
+          doxygen \
+          meld \
           pandoc \
           libnss3 \
           libdpkg-perl \
           ttf-dejavu \
-          swig3.0 \
           \
-          python3-spyder spyder3 \
+          swig3.0 \
           python3-mpi4py \
           python3-petsc4py \
-          python3-slepc4py \
-          \
-          python3-notebook jupyter-notebook \
-          python3-flake8 \
-          python3-progressbar \
-          python3-widgetsnbextension && \
+          python3-slepc4py && \
     apt-get clean && \
     apt-get autoremove && \
-    \
+    curl -O https://bootstrap.pypa.io/get-pip.py && \
+    python3 get-pip.py && \
     pip3 install -U \
-         autopep8 \
-         PyDrive \
-         jupyter_latex_envs && \
+          setuptools \
+          matplotlib \
+          sympy \
+          scipy \
+          pandas \
+          nose \
+          sphinx \
+          cython \
+          \
+          autopep8 \
+          flake8 \
+          pylint \
+          flufl.lock \
+          ply \
+          pytest \
+          six \
+          PyQt5 \
+          spyder \
+          \
+          urllib3 \
+          requests \
+          pylint \
+          progressbar2 \
+          PyDrive \
+          \
+          ipython \
+          jupyter \
+          jupyter_latex_envs \
+          ipywidgets && \
+    jupyter nbextension install --py --system \
+         widgetsnbextension && \
+    jupyter nbextension enable --py --system \
+         widgetsnbextension && \
     jupyter-nbextension install --py --system \
         latex_envs && \
     jupyter-nbextension enable --py --system \
