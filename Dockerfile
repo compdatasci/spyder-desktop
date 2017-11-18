@@ -16,6 +16,7 @@ RUN apt-get update && \
           python3-dev \
           pandoc \
           libnss3 \
+          libdpkg-perl \
           ttf-dejavu && \
     apt-get clean && \
     \
