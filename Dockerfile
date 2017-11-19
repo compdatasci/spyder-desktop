@@ -1,4 +1,4 @@
-# Builds a Docker image for Spyder and Jupyter Notebook
+# Builds a Docker image for Spyder and Jupyter Notebook with petsc4py and slepc4py
 #
 # Authors:
 # Xiangmin Jiao <xmjiao@gmail.com>
@@ -10,6 +10,10 @@ USER root
 WORKDIR /tmp
 
 ADD image/home $DOCKER_HOME
+
+# Environment variables
+ENV PETSC4PY_VERSION=3.7.0
+ENV SLEPC4PY_VERSION=3.7.0
 
 # Install system packages, Scipy, PyDrive, and jupyter-notebook
 RUN apt-get update && \
@@ -24,8 +28,8 @@ RUN apt-get update && \
           \
           swig3.0 \
           python3-mpi4py \
-          python3-petsc4py \
-          python3-slepc4py && \
+          python3-petsc4py="${PETSC4PY_VERSION}*" \
+          python3-slepc4py="${SLEPC4PY_VERSION}*" && \
     apt-get clean && \
     apt-get autoremove && \
     curl -O https://bootstrap.pypa.io/get-pip.py && \
