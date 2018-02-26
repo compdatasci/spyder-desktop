@@ -27,11 +27,20 @@ Download the Docker Community Edition for free at https://www.docker.com/communi
 2. On Mac, the clock in Docker would lag when your computer goes to sleep and then wakes up. You can resolve this issue either by restarting Docker after waking up or by installing [sync-docker-time](https://github.com/x11vnc/sync-docker-time).
 
 **Notes for Linux Users**
-* After you install Docker, make sure you add yourself to the Docker group by running the command:
+* Most Linux distributions have a `docker` package. You can use the package installer for your system to install `docker`. Note that on some system (e.g., OpenSUSE), you may need to run the following commands to start up `docker` after installing `docker`:
+```
+sudo systemctl enable docker
+sudo systemctl start docker
+```
+* After you install Docker, make sure you add yourself to the `docker` group. On Ubuntu, this is done by running the command:
 ```
 sudo adduser $USER docker
 ```
-Then, log out and log back in before you can use Docker.
+On other systems, try the following command.
+```
+sudo usermod -G docker -a $USER 
+```
+After adding yourself to the `docker` group, you need to log out and log back in before you can use Docker.
 ## Running the Docker Image
 To run the Docker image, first download the script [`spyder_desktop.py`](https://raw.githubusercontent.com/compdatasci/spyder-desktop/master/spyder_desktop.py)
 and save it to the working directory where you will store your codes and data. You can download the script using command line: On Windows, start `Windows PowerShell`, use the `cd` command to change to the working directory where you will store your codes and data, and then run the following command:
