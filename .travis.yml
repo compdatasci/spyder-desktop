@@ -7,6 +7,4 @@ before_script:
 
 script:
   - './ci-util/build-docker.sh : :3.6.3,artful,latest &&
-     ./spyder_desktop.py -d -n && docker stop $(docker ps -q) &&
-     ./spyder_jupyter.py -d -n && docker stop $(docker ps -q) &&
      ./ci-util/trigger-via-api.sh'
