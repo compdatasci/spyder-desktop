@@ -37,7 +37,7 @@ RUN apt-get update && \
     pip3 install -U \
           setuptools \
           matplotlib \
-          sympy \
+          sympy==1.1.1 \
           scipy \
           pandas \
           nose \
