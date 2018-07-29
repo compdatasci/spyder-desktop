@@ -16,6 +16,8 @@ ENV PETSC4PY_VERSION=3.7.0
 ENV SLEPC4PY_VERSION=3.7.0
 
 # Install system packages, Scipy, PyDrive, and jupyter-notebook
+# Also installs jupyter extensions for latex environments and spellchecker
+# https://stackoverflow.com/questions/39324039/highlight-typos-in-the-jupyter-notebook-markdown
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
           python3-dev \
