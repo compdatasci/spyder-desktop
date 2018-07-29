@@ -42,6 +42,7 @@ RUN apt-get update && \
           pandas \
           nose \
           sphinx \
+          breathe \
           cython \
           \
           autopep8 \
