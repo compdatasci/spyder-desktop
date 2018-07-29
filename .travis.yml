@@ -6,5 +6,5 @@ before_script:
   - git clone --depth=1 https://$GIT_TOKEN@github.com/xmjiao/ci-util.git 2> /dev/null
 
 script:
-  - './ci-util/build-docker.sh : :3.6.3,artful,latest &&
+  - './ci-util/build-docker.sh : : &&
      ./ci-util/trigger-via-api.sh'

@@ -3,7 +3,7 @@
 # Authors:
 # Xiangmin Jiao <xmjiao@gmail.com>
 
-FROM compdatasci/petsc-desktop:latest
+FROM compdatasci/petsc-desktop:18.04
 LABEL maintainer "Xiangmin Jiao <xmjiao@gmail.com>"
 
 USER root
