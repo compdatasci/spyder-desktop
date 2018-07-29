@@ -130,6 +130,7 @@ if __name__ == "__main__":
     import os
     import webbrowser
     import platform
+    import re
 
     args = parse_args(description=__doc__)
 
@@ -233,13 +234,13 @@ if __name__ == "__main__":
 
                 # Monitor the stdout to extract the URL
                 for stdout_line in iter(p.stdout.readline, ""):
-                    ind = stdout_line.find("http://0.0.0.0:")
+                    m = re.search('http://[\w\-\.]+', stdout_line)
 
-                    if ind >= 0:
+                    if m:
                         # Open browser if found URL
                         if not args.notebook:
                             url = "http://localhost:" + \
-                                stdout_line[ind + 15:-1]
+                                stdout_line[m.end() + 1:-1]
                         else:
                             url = "http://localhost:" + port_http + \
                                 "/notebooks/" + args.notebook + \
