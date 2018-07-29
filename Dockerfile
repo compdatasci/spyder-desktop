@@ -64,6 +64,7 @@ RUN apt-get update && \
           ipython \
           jupyter \
           jupyter_latex_envs \
+          jupyter_contrib_nbextensions \
           ipywidgets && \
     jupyter nbextension install --py --system \
          widgetsnbextension && \
@@ -73,14 +74,8 @@ RUN apt-get update && \
         latex_envs && \
     jupyter-nbextension enable --py --system \
         latex_envs && \
-    jupyter-nbextension install --system \
-        https://bitbucket.org/ipre/calico/downloads/calico-spell-check-1.0.zip && \
-    jupyter-nbextension install --system \
-        https://bitbucket.org/ipre/calico/downloads/calico-document-tools-1.0.zip && \
-    jupyter-nbextension install --system \
-        https://bitbucket.org/ipre/calico/downloads/calico-cell-tools-1.0.zip && \
-    jupyter-nbextension enable --system \
-        calico-spell-check && \
+    jupyter contrib nbextension install --system && \
+    jupyter nbextension enable spellchecker/main && \
     \
     curl -L https://github.com/hbin/top-programming-fonts/raw/master/install.sh | bash && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
