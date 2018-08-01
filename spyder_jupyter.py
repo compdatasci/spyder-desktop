@@ -234,7 +234,6 @@ if __name__ == "__main__":
 
                 # Monitor the stdout to extract the URL
                 for stdout_line in iter(p.stdout.readline, ""):
-                    print(stdout_line)
                     m = re.search('http://[^:]+:', stdout_line)
 
                     if m:
