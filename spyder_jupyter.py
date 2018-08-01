@@ -234,13 +234,14 @@ if __name__ == "__main__":
 
                 # Monitor the stdout to extract the URL
                 for stdout_line in iter(p.stdout.readline, ""):
-                    m = re.search('http://[\w\-\.]+', stdout_line)
+                    print(stdout_line)
+                    m = re.search('http://[^:]+:', stdout_line)
 
                     if m:
                         # Open browser if found URL
                         if not args.notebook:
                             url = "http://localhost:" + \
-                                stdout_line[m.end() + 1:-1]
+                                stdout_line[m.end():-1]
                         else:
                             url = "http://localhost:" + port_http + \
                                 "/notebooks/" + args.notebook + \
