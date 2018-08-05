@@ -114,7 +114,12 @@ def get_local_ip():
     "Get local IP address"
     import socket
 
-    return socket.gethostbyname(socket.gethostname())
+    return [l for l in ([ip for ip in \
+        socket.gethostbyname_ex(socket.gethostname())[2] \
+        if not ip.startswith("127.")][:1], \
+        [[(s.connect(('8.8.8.8', 53)), s.getsockname()[0], s.close()) \
+        for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1]]) \
+        if l][0][0]
 
 
 def find_free_port(port, retries):
@@ -248,8 +253,8 @@ if __name__ == "__main__":
     port_http = str(find_free_port(8888, 50))
 
     subprocess.call(["docker", "run", "-d", rmflag, "--name", container,
-                     "-p", "127.0.0.1:" + port_http + ":" + port_http] +
-                    envs + volumes + args.args +
+                    "-p", "127.0.0.1:" + port_http + ":" + port_http,
+                    "--net=host"] + envs + volumes + args.args +
                     [args.image,
                      "jupyter-notebook --no-browser --ip=0.0.0.0 --port " +
                      port_http +
@@ -257,7 +262,7 @@ if __name__ == "__main__":
 
     # Try to start add local IP to xhost if DISPLAY is set
     if os.environ['DISPLAY']:
-        subprocess.run(["xhost", '+', get_local_ip()])
+        subprocess.call(["xhost", '+' + get_local_ip()])
 
     
     wait_for_url = True
