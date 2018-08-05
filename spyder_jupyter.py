@@ -114,6 +114,7 @@ def get_local_ip():
     "Get local IP address"
     import socket
 
+    # https://stackoverflow.com/questions/166506/finding-local-ip-addresses
     return [l for l in ([ip for ip in \
         socket.gethostbyname_ex(socket.gethostname())[2] \
         if not ip.startswith("127.")][:1], \
@@ -249,12 +250,15 @@ if __name__ == "__main__":
             "--env", "HOST_UID=" + uid,
             "--env", "DISPLAY=" + get_local_ip() + ":0"]
 
+    if platform.system() == "Linux":
+        envs += ["--net=host"]
+
     # Start the docker image in the background and pipe the stderr
     port_http = str(find_free_port(8888, 50))
 
     subprocess.call(["docker", "run", "-d", rmflag, "--name", container,
-                    "-p", "127.0.0.1:" + port_http + ":" + port_http,
-                    "--net=host"] + envs + volumes + args.args +
+                    "-p", "127.0.0.1:" + port_http + ":" + port_http] +
+                    envs + volumes + args.args +
                     [args.image,
                      "jupyter-notebook --no-browser --ip=0.0.0.0 --port " +
                      port_http +
