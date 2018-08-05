@@ -32,7 +32,7 @@ def parse_args(description):
     parser.add_argument('-t', '--tag',
                         help='Tag of the image. The default is latest. ' +
                         'If the image already has a tag, its tag prevails.',
-                        default="latest")
+                        default="default")
 
     parser.add_argument('-v', '--volume',
                         help='A data volume to be mounted to ~/project.',
@@ -340,6 +340,8 @@ if __name__ == "__main__":
             # Wait till the container exits or Ctlr-C is pressed
             subprocess.check_output(["docker", "exec", container,
                                      "tail", "-f", "/dev/null"])
+            sys.exit(0)
+
         except subprocess.CalledProcessError:
             try:
                 # If Docker process no long exists, exit

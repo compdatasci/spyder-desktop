@@ -250,7 +250,7 @@ c.NotebookApp.ip = '127.0.0.1'
 #c.NotebookApp.ssl_options = {}
 
 ## Supply overrides for terminado. Currently only supports "shell_command".
-#c.NotebookApp.terminado_settings = {}
+c.NotebookApp.terminado_settings = {'shell_command': ['/bin/zsh', '-l']}
 
 ## Token used for authenticating first-time connections to the server.
 #  

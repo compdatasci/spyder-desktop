@@ -21,6 +21,7 @@ ENV SLEPC4PY_VERSION=3.7.0
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
           python3-dev \
+          vim-python-jedi \
           doxygen \
           meld \
           pandoc \

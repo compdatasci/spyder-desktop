@@ -1,2 +1,4 @@
 *~
 *.bak
+.vscode
+.ipynb_checkpoints

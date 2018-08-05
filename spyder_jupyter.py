@@ -110,6 +110,13 @@ def id_generator(size=6):
     return APP + "-" + (''.join(random.choice(chars) for _ in range(size)))
 
 
+def get_local_ip():
+    "Get local IP address"
+    import socket
+
+    return socket.gethostbyname(socket.gethostname())
+
+
 def find_free_port(port, retries):
     "Find a free port"
     import socket
@@ -234,7 +241,8 @@ if __name__ == "__main__":
     container = id_generator()
 
     envs = ["--hostname", container,
-            "--env", "HOST_UID=" + uid]
+            "--env", "HOST_UID=" + uid,
+            "--env", "DISPLAY=" + get_local_ip() + ":0"]
 
     # Start the docker image in the background and pipe the stderr
     port_http = str(find_free_port(8888, 50))
@@ -247,6 +255,11 @@ if __name__ == "__main__":
                      port_http +
                      " >> " + docker_home + "/.log/jupyter.log 2>&1"])
 
+    # Try to start add local IP to xhost if DISPLAY is set
+    if os.environ['DISPLAY']:
+        subprocess.run(["xhost", '+', get_local_ip()])
+
+    
     wait_for_url = True
     # Wait for user to press Ctrl-C
     while True:
@@ -299,10 +312,11 @@ if __name__ == "__main__":
             print("Press Ctrl-C to stop the server.")
             time.sleep(1)
 
-            # Wait till the container exits or Ctlr-C is pressed
+            # Wait until the container exits or Ctlr-C is pressed
             subprocess.call(["docker", "exec", container,
                              "tail", "-F", "-n", "0",
                              docker_home + "/.log/jupyter.log"])
+            sys.exit(0)
 
         except subprocess.CalledProcessError:
             try:
