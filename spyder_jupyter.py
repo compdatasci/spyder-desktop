@@ -333,7 +333,7 @@ if __name__ == "__main__":
             devices += ['--device', d + ':' + d]
 
     # set up X11 forwarding for Mac or Linux if DISPLAY is set
-    if platform.system() != 'Windows' and os.environ['DISPLAY']:
+    if platform.system() != 'Windows' and 'DISPLAY' in os.environ:
         if not os.path.exists(homedir + '/.Xauthority') or \
                 os.stat(homedir + '/.Xauthority').st_size == 0:
             # Create ~/.Xauthority if it does not exist
