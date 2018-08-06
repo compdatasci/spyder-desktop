@@ -38,8 +38,7 @@ RUN git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT && \
     $PYENV_ROOT/bin/pyenv install $PYENV_VERSION && \
     pip3 install -U\
           pip \
-          setuptools \
-          dev && \
+          setuptools && \
     pip3 install -U \
           numpy \
           matplotlib \
