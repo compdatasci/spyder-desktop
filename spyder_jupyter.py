@@ -398,10 +398,9 @@ if __name__ == "__main__":
                               "when you connect for the first time:")
                         print("    ", url)
 
-                        stdout_write("You can also use command 'ssh -X -p " + port_ssh + " " +
-                                     docker_user + "@localhost -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'" +
-                                     " to log into the container\n" +
-                                     "using an authorized key in " +
+                        stdout_write("You can also log into the container using the command\n    ssh -X -p " + port_ssh + " " +
+                                     docker_user + "@localhost -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no\n" +
+                                     "with an authorized key in " +
                                      homedir + "/.ssh/authorized_keys.\n")
 
                         if not args.no_browser:
