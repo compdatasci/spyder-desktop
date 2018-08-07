@@ -333,23 +333,11 @@ if __name__ == "__main__":
 
     # set up X11 forwarding for Mac or Linux if DISPLAY is set
     if platform.system() != 'Windows' and 'DISPLAY' in os.environ:
-        if not os.path.exists('/tmp/.X11-unix'):
-            os.mkdir('/tmp/.X11-unix')
-
-        if platform.system() == 'Linux' and not os.listdir('/tmp/.X11-unix'):
-            stderr_write(
-                'To use X11 forwarding, run "ssh -X localhost" on the host.\n')
-
-        volumes += ['-v', '/tmp/.X11-unix:/tmp/.X11-unix']
-
-        if platform.system() == 'Darwin':
-            # Mac OS X by default does not support X11 forwarding
-            # and its DISPLAY environment variable cannot be shared
-            envs += ["--env", "DISPLAY=" + get_local_ip() + ":0"]
-            if os.path.exists('/usr/X11/bin/xhost'):
-                subprocess.check_output(['xhost', '+' + get_local_ip()])
-        else:  # Linux works only with ssh forwarding
-            envs += ["--env", "DISPLAY=" + os.environ['DISPLAY']]
+        # Mac OS X by default does not support X11 forwarding
+        # and its DISPLAY environment variable cannot be shared
+        envs += ["--env", "DISPLAY=" + get_local_ip() + ":0"]
+        if os.path.exists('/usr/X11/bin/xhost') or os.path.exists('/usr/bin/xhost'):
+            subprocess.check_output(['xhost', '+' + get_local_ip()])
 
     # Start the docker image in the background and pipe the stderr
     port_http = str(find_free_port(8888, 50))
