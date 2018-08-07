@@ -271,8 +271,7 @@ if __name__ == "__main__":
             stderr_write(e.output.decode('utf-8'))
 
     volumes = ["-v", pwd + ":" + docker_home + "/shared",
-               "-v", config + ":" + docker_home + "/.config",
-               "-v", homedir + "/.ssh" + ":" + docker_home + "/.ssh"]
+               "-v", config + ":" + docker_home + "/.config"]
 
     if os.path.exists(homedir + "/.gnupg"):
         volumes += ["-v", homedir + "/.gnupg" +
@@ -319,7 +318,7 @@ if __name__ == "__main__":
     if not port_ssh:
         stderr_write("Error: Could not find a free port.\n")
         sys.exit(-1)
-    envs += ["-p", "127.0.0.1:" + port_ssh + ":22"]
+    envs += ["-p", port_ssh + ":22"]
 
     # Create directory .ssh if not exist
     if not os.path.exists(homedir + "/.ssh"):
@@ -334,12 +333,6 @@ if __name__ == "__main__":
 
     # set up X11 forwarding for Mac or Linux if DISPLAY is set
     if platform.system() != 'Windows' and 'DISPLAY' in os.environ:
-        if not os.path.exists(homedir + '/.Xauthority') or \
-                os.stat(homedir + '/.Xauthority').st_size == 0:
-            # Create ~/.Xauthority if it does not exist
-            stderr_write('Warning: ~/.Xauthority is empty.\n')
-            open(homedir + '/.Xauthority', 'a').close()
-
         if not os.path.exists('/tmp/.X11-unix'):
             os.mkdir('/tmp/.X11-unix')
 
@@ -347,8 +340,7 @@ if __name__ == "__main__":
             stderr_write(
                 'To use X11 forwarding, run "ssh -X localhost" on the host.\n')
 
-        volumes += ['-v', '/tmp/.X11-unix:/tmp/.X11-unix',
-                    '-v', homedir + '/.Xauthority:' + docker_home + '/.Xauthority']
+        volumes += ['-v', '/tmp/.X11-unix:/tmp/.X11-unix']
 
         if platform.system() == 'Darwin':
             # Mac OS X by default does not support X11 forwarding
@@ -357,7 +349,7 @@ if __name__ == "__main__":
             if os.path.exists('/usr/X11/bin/xhost'):
                 subprocess.check_output(['xhost', '+' + get_local_ip()])
         else:  # Linux works only with ssh forwarding
-            envs += ["--net=host", "--env", "DISPLAY=" + os.environ['DISPLAY']]
+            envs += ["--env", "DISPLAY=" + os.environ['DISPLAY']]
 
     # Start the docker image in the background and pipe the stderr
     port_http = str(find_free_port(8888, 50))
@@ -366,7 +358,7 @@ if __name__ == "__main__":
         sys.exit(-1)
 
     cmd = ["docker", "run", "-d", rmflag, "--name", container,
-           "--shm-size", "2g", "-p", "127.0.0.1:" + port_http + ":" + port_http] + \
+           "--shm-size", "2g", "-p", port_http + ":" + port_http] + \
         envs + volumes + args.args.split() + \
         ['--security-opt', 'seccomp=unconfined', args.image,
             "jupyter-notebook --no-browser --ip=0.0.0.0 --port " +
@@ -418,8 +410,8 @@ if __name__ == "__main__":
                               "when you connect for the first time:")
                         print("    ", url)
 
-                        stdout_write("You can also run 'ssh -X -p " + port_ssh + " " +
-                                     docker_user + "@localhost'" +
+                        stdout_write("You can also use command 'ssh -X -p " + port_ssh + " " +
+                                     docker_user + "@localhost -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'" +
                                      " to log into the container\n" +
                                      "using an authorized key in " +
                                      homedir + "/.ssh/authorized_keys.\n")
