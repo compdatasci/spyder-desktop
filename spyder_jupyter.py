@@ -349,7 +349,7 @@ if __name__ == "__main__":
     cmd = ["docker", "run", "-d", rmflag, "--name", container,
            "--shm-size", "2g", "-p", port_http + ":" + port_http] + \
         envs + volumes + args.args.split() + \
-        ['--security-opt', 'seccomp=unconfined', args.image,
+        ['--security-opt', 'seccomp=unconfined', '--cap-add=SYS_PTRACE', args.image,
             "jupyter-notebook --no-browser --ip=0.0.0.0 --port " +
             port_http + " " + args.jupyter +
             " >> " + docker_home + "/.log/jupyter.log 2>&1"]
