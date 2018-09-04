@@ -2,7 +2,7 @@
 
 """
 Launch a Docker image with Ubuntu and LXDE window manager, and
-automatically open up the URL in the default web browser. 
+automatically open up the URL in the default web browser.
 It also sets up port forwarding for ssh.
 """
 
@@ -22,7 +22,6 @@ tag = ""
 projdir = "project"
 workdir = "project"
 volume = proj + "_project"
-config = proj + '_' + tag + '_config'
 
 
 def parse_args(description):
@@ -213,6 +212,7 @@ if __name__ == "__main__":
     import glob
 
     args = parse_args(description=__doc__)
+    config = proj + '_' + args.tag + '_config'
 
     if args.quiet:
         def print(*args, **kwargs):
