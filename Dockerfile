@@ -20,6 +20,7 @@ ENV SLEPC4PY_VERSION=3.7.0
 # https://stackoverflow.com/questions/39324039/highlight-typos-in-the-jupyter-notebook-markdown
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+          pkg-config \
           python3-dev \
           vim-python-jedi \
           doxygen \
