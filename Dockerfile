@@ -32,6 +32,7 @@ RUN apt-get update && \
           ttf-dejavu \
           \
           swig3.0 \
+          qt5dxcb-plugin \
           python3-mpi4py \
           python3-petsc4py="${PETSC4PY_VERSION}*" \
           python3-slepc4py="${SLEPC4PY_VERSION}*" && \
